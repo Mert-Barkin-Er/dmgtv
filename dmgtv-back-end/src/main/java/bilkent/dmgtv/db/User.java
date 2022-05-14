@@ -27,5 +27,5 @@ public class User extends BaseEntity
 	private String fullName;
 
 	@Column(name ="birth_date", nullable = false, columnDefinition = "date")
-	private Date birthDate = new Date(System.currentTimeMillis());
+	private Date birthDate;
 }
