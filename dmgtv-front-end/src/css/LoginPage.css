@@ -1,27 +1,13 @@
 .LoginPage {
-    text-align: center;
+    text-align: left;
     font-size: calc(10px + 2vmin);
     color: black;
     margin-top: 5%;
 }
 
-.Button {
-    text-align: center;
+.LoginPageButton {
+    text-align: left;
     font-size: calc(10px + 2vmin);
-    color: black;
     margin-top: 5%;
 }
 
-.TextField1 {
-    text-align: center;
-    font-size: calc(10px + 2vmin);
-    color: black;
-    margin-top: 5%;
-}
-
-.TextField2 {
-    text-align: center;
-    font-size: calc(10px + 2vmin);
-    color: black;
-    margin-top: 5%;
-}
