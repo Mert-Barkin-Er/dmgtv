@@ -1,12 +1,12 @@
 import FriendList from "./FriendList";
-import Navbar from "./Navbar";
+import UserNavbar from "./UserNavbar";
 
 const friends = [{"username": "doruk"}, {"username": "kurod"}, {"username": "dk"}, {"username": "doruk"}, {"username": "doruk"}];
 
 export default function FriendsPage() {
     return (
         <div>
-            <Navbar/>
+            <UserNavbar/>
             <FriendList friends={friends}/>
         </div>
     );

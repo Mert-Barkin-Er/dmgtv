@@ -10,7 +10,12 @@ export default function LoginPage() {
     function handleLogin(e) {
         e.preventDefault();
         sessionStorage.setItem('username', JSON.stringify(username));
-        navigate("/profile");
+        if (username === "admin") {
+            navigate("/employee");
+        }
+        else {
+            navigate("/profile");
+        }
     }
 
     return (
