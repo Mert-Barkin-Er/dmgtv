@@ -8,20 +8,20 @@
 .Button {
     text-align: center;
     font-size: calc(10px + 2vmin);
-    color: purple;
+    color: black;
     margin-top: 5%;
 }
 
 .TextField1 {
     text-align: center;
     font-size: calc(10px + 2vmin);
-    color: purple;
+    color: black;
     margin-top: 5%;
 }
 
 .TextField2 {
     text-align: center;
     font-size: calc(10px + 2vmin);
-    color: purple;
+    color: black;
     margin-top: 5%;
 }
