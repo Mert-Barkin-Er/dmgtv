@@ -23,15 +23,9 @@ export default function LoginPage() {
             Proceed to log into DMGTV:
             <form noValidate autoComplete="off" onSubmit={(e) => {handleLogin(e);}} style={{marginTop: "10%"}}>
                 <TextField label="Username" onChange={(e) => {setUsername(e.target.value)}}/>
+                <TextField label="Password" type="password"/>
+                <Button className="LoginPageButton" type="submit" style={{ marginTop: "1.5%" }}>Log In</Button>
             </form>
-        
-        <div className="LoginPage">
-        <TextField label="Password" type="password"/>
-        </div>
-
-        <body className="LoginPageButton">
-            <Button type="submit" style={{ marginTop: "1.5%" }}>Log In</Button>
-        </body> 
         </div>
     );
 }
