@@ -4,17 +4,21 @@ import bilkent.dmgtv.db.Buy;
 import bilkent.dmgtv.db.Movie;
 import bilkent.dmgtv.db.User;
 import bilkent.dmgtv.dto.BuyDto;
+import bilkent.dmgtv.dto.MovieDto;
 import bilkent.dmgtv.repository.BuyRepository;
 import bilkent.dmgtv.repository.MovieRepository;
 import bilkent.dmgtv.repository.UserRepository;
 import bilkent.dmgtv.service.BuyService;
 import bilkent.dmgtv.serviceimpl.base.BaseServiceImpl;
 import bilkent.dmgtv.serviceimpl.mapper.BuyMapper;
+import bilkent.dmgtv.serviceimpl.mapper.MovieMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -73,5 +77,29 @@ public class BuyServiceImpl extends BaseServiceImpl<Buy, BuyDto> implements BuyS
 
 		// return buy
 		return buyMapper.entityToDto(buyRepository.getByMovieTitleAndUserUsername(movieTitle, username));
+	}
+
+	@Override
+	public List<MovieDto> getAllMovies(String username)
+	{
+		// check if user exists
+		Optional<User> user = userRepository.findByUsername(username);
+		if (!user.isPresent())
+		{
+			LOGGER.error("User with username {} does not exist", username);
+			throw new EntityNotFoundException("User with username " + username + " does not exist");
+		}
+
+		// get all buys
+		List<Buy> buys = buyRepository.getByUserUsername(username);
+
+		// return movies
+		List<Movie> movieList = new ArrayList<>();
+		for (Buy buy : buys)
+		{
+			movieList.add(buy.getMovie());
+		}
+		// return buys
+		return MovieMapper.INSTANCE.entityListToDtoList(movieList);
 	}
 }

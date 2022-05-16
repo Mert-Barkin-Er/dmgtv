@@ -14,6 +14,7 @@ import java.util.UUID;
 public interface MovieRepository extends BaseRepository<Movie, UUID> {
     @Query(value = "select * from movie m where m.title = ?1 and m.production_year = ?2", nativeQuery = true)
     Optional<Movie> findByTitleAndProductionYear(String title, Integer year);
+    @Query(value = "select case when count(*) > 0 then true else false end from movie m where m.title = ?1", nativeQuery = true)
     Boolean existsByTitle(String title);
     @Query(value = "select * from movie m where m.title = ?1", nativeQuery = true)
     Optional<Movie> findByTitle(String title);
