@@ -1,7 +1,9 @@
 package bilkent.dmgtv.serviceimpl;
 
 import bilkent.dmgtv.db.Movie;
+import bilkent.dmgtv.db.MovieFilterYear;
 import bilkent.dmgtv.dto.MovieDto;
+import bilkent.dmgtv.dto.ReviewDto;
 import bilkent.dmgtv.repository.MovieRepository;
 import bilkent.dmgtv.service.MovieService;
 import bilkent.dmgtv.serviceimpl.base.BaseServiceImpl;
@@ -9,6 +11,11 @@ import bilkent.dmgtv.serviceimpl.mapper.MovieMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.EntityNotFoundException;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class MovieServiceImpl extends BaseServiceImpl<Movie, MovieDto> implements MovieService
@@ -25,5 +32,18 @@ public class MovieServiceImpl extends BaseServiceImpl<Movie, MovieDto> implement
 		this.movieMapper = movieMapper;
 	}
 
-
+	public List<MovieDto> filterByYear(MovieFilterYear movieFilterYear) throws EntityNotFoundException
+	{
+		if (movieFilterYear.getLowerYear() == null || movieFilterYear.getUpperYear() == null)
+		{
+			LOGGER.warn("Filter information cannot be empty");
+			throw new EntityNotFoundException();
+		}
+		List<MovieDto> movies = movieMapper.entityListToDtoList(
+				movieRepository.findAllByProductionYearGreaterThanEqualAndProductionYearLessThanEqual(
+						movieFilterYear.getLowerYear(), movieFilterYear.getUpperYear()
+				)
+		);
+		return movies;
+	}
 }
