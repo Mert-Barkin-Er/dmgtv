@@ -38,7 +38,7 @@ public abstract class BaseController<D extends BaseDto<UUID>>
 		catch (EntityNotFoundException e)
 		{
 			return new ResponseEntity<>(new RestResponse<>(null, "Create",
-					"Creating Entity was unsuccessful due to an error with the entity given."),
+					e.getMessage()),
 					HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 		catch (Exception e)

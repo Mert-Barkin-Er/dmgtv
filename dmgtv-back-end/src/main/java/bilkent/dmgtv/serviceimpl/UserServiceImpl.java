@@ -17,10 +17,13 @@ import javax.persistence.EntityNotFoundException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl extends BaseServiceImpl<User, UserDto> implements UserService
 {
+
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
 	private final UserRepository userRepository;
@@ -31,6 +34,14 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDto> implements U
 		super(userRepository, UserMapper.INSTANCE);
 		this.userRepository = userRepository;
 		this.userMapper = userMapper;
+	}
+
+	@Override
+	public UserDto create(UserDto dto) throws EntityNotFoundException
+	{
+		dto.setId(UUID.randomUUID());
+		userRepository.saveUser(dto.getId(),dto.getUsername(), dto.getPassword(), dto.getFullName(), dto.getBirthDate());
+		return userMapper.entityToDto(userRepository.findByUsername(dto.getUsername()).get());
 	}
 
 	public UserDto get(String username) throws EntityNotFoundException

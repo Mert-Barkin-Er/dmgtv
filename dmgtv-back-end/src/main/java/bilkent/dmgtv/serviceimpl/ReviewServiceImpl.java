@@ -112,7 +112,9 @@ public class ReviewServiceImpl extends BaseServiceImpl<Review, ReviewDto> implem
                 Optional<Movie> movie = movieRepository.findById(UUID.fromString(reviewRequest.getMovieId()));
                 if (movie.isPresent()) {
                     Review review = new Review(user.get(), movie.get(), reviewRequest.getRating(), reviewRequest.getComment());
-                    ReviewDto reviewDto = super.create(ReviewMapper.INSTANCE.entityToDto(review));
+                    review.setId(UUID.randomUUID());
+                    reviewRepository.saveReview(review.getId(),review.getUser().getId(), review.getMovie().getId(), review.getRating(), review.getComment());
+                    ReviewDto reviewDto = ReviewMapper.INSTANCE.entityToDto( reviewRepository.findByUserIdAndMovieId(review.getUser().getId(), review.getMovie().getId()).get());
                     calculateRating(reviewRequest.getMovieId());
                     return reviewDto;
                 }
