@@ -3,18 +3,22 @@ package bilkent.dmgtv.serviceimpl;
 import bilkent.dmgtv.db.Friend;
 import bilkent.dmgtv.db.User;
 import bilkent.dmgtv.dto.FriendDto;
+import bilkent.dmgtv.dto.UserDto;
 import bilkent.dmgtv.repository.FriendRepository;
 import bilkent.dmgtv.repository.UserRepository;
 import bilkent.dmgtv.repository.base.BaseRepository;
 import bilkent.dmgtv.service.FriendService;
 import bilkent.dmgtv.serviceimpl.base.BaseServiceImpl;
 import bilkent.dmgtv.serviceimpl.mapper.FriendMapper;
+import bilkent.dmgtv.serviceimpl.mapper.UserMapper;
 import bilkent.dmgtv.serviceimpl.mapper.base.BaseMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -35,7 +39,7 @@ public class FriendServiceImpl extends BaseServiceImpl<Friend, FriendDto> implem
 		this.userRepository = userRepository;
 	}
 
-	public FriendDto add(String firstUsername, String secondUsername)
+	public FriendDto addFriend(String firstUsername, String secondUsername)
 	{
 		Optional<User> firstUser = userRepository.findByUsername(firstUsername);
 		Optional<User> secondUser = userRepository.findByUsername(secondUsername);
@@ -55,6 +59,16 @@ public class FriendServiceImpl extends BaseServiceImpl<Friend, FriendDto> implem
 		{
 			throw new EntityNotFoundException("One/Both of the users not found");
 		}
+	}
+
+	public List<UserDto> getFriends(String username)
+	{
+		List<UserDto> friends = new ArrayList<>();
+		List<Friend> list = friendRepository.findByFirstUserUsername(username);
+		for (Friend friend : list){
+			friends.add(UserMapper.INSTANCE.entityToDto(friend.getSecondUser()));
+		}
+		return friends;
 	}
 }
 

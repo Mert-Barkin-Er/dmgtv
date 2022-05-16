@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 
 @RestController
 @RequestMapping("friend")
@@ -29,7 +30,7 @@ public class FriendController extends BaseController<FriendDto>
 	{
 		try
 		{
-			return new ResponseEntity<>(new RestResponse<>(friendService.add(firstusername, secondusername),
+			return new ResponseEntity<>(new RestResponse<>(friendService.addFriend(firstusername, secondusername),
 					"Create Friend Relationship",
 					"Friend relationship creation was successful"),
 					HttpStatus.OK);
@@ -43,6 +44,29 @@ public class FriendController extends BaseController<FriendDto>
 		catch (Exception e)
 		{
 			return new ResponseEntity<>(new RestResponse<>(null, "Friend Create","Unexpected error"),
+					HttpStatus.EXPECTATION_FAILED);
+		}
+	}
+
+	@GetMapping(value = "getFriends/{username}")
+	public ResponseEntity<RestResponse<List<UserDto>>> getFriends(@PathVariable String username)
+	{
+		try
+		{
+			return new ResponseEntity<>(new RestResponse<>(friendService.getFriends(username),
+					"Get Friends",
+					"Get friends was successful"),
+					HttpStatus.OK);
+		}
+		catch (EntityNotFoundException e)
+		{
+			return new ResponseEntity<>(new RestResponse<>(null, "Get Friends",
+					"Either one or both of the users are not found"),
+					HttpStatus.NOT_FOUND);
+		}
+		catch (Exception e)
+		{
+			return new ResponseEntity<>(new RestResponse<>(null, "Get friends",e.getMessage()),
 					HttpStatus.EXPECTATION_FAILED);
 		}
 	}
