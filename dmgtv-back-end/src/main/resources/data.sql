@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS friend;
 DROP TABLE IF EXISTS buy;
 DROP TABLE IF EXISTS rent;
 DROP TABLE IF EXISTS request;
+DROP TABLE IF EXISTS wish;
 CREATE TABLE movie(
   id UUID PRIMARY KEY,
   title VARCHAR(64) NOT NULL,
@@ -64,6 +65,15 @@ CREATE TABLE friend(
     second_username VARCHAR(20) NOT NULL REFERENCES users(username) ON DELETE CASCADE ON UPDATE CASCADE,
     UNIQUE (first_username, second_username)
 );
+
+CREATE TABLE wish(
+    id UUID PRIMARY KEY,
+    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    movie_id UUID NOT NULL REFERENCES movie(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    wish_date DATE NOT NULL,
+    UNIQUE (user_id, movie_id)
+);
+
 
 -- Default data
 --users
@@ -151,3 +161,16 @@ INSERT INTO buy VALUES (uuid_generate_v4(), (select id from users where username
 INSERT INTO buy VALUES (uuid_generate_v4(), (select id from users where username = 'dorukkantarci'), (select id from movie where title = 'The Dark Knight'), '2022-04-17');
 INSERT INTO buy VALUES (uuid_generate_v4(), (select id from users where username = 'dorukkantarci'), (select id from movie where title = 'The Godfather'), '2022-05-16');
 INSERT INTO buy VALUES (uuid_generate_v4(), (select id from users where username = 'dorukkantarci'), (select id from movie where title = 'The Lord of the Rings: The Return of the King'), '2020-08-21');
+
+--wish
+INSERT INTO wish VALUES (uuid_generate_v4(), (select id from users where username = 'mertbarkiner'), (select id from movie where title = 'The Lion King'), '2020-08-05');
+INSERT INTO wish VALUES (uuid_generate_v4(), (select id from users where username = 'mertbarkiner'), (select id from movie where title = 'Parasite'), '2021-02-03');
+INSERT INTO wish VALUES (uuid_generate_v4(), (select id from users where username = 'gokberkbeydemir'), (select id from movie where title = 'The Lion King'), '2021-04-05');
+INSERT INTO wish VALUES (uuid_generate_v4(), (select id from users where username = 'gokberkbeydemir'), (select id from movie where title = 'Parasite'), '2021-06-07');
+INSERT INTO wish VALUES (uuid_generate_v4(), (select id from users where username = 'gokberkbeydemir'), (select id from movie where title = 'The Shawshank Redemption'), '2021-08-09');
+INSERT INTO wish VALUES (uuid_generate_v4(), (select id from users where username = 'melisatun'), (select id from movie where title = 'The Godfather: Part II'), '2021-10-11');
+INSERT INTO wish VALUES (uuid_generate_v4(), (select id from users where username = 'melisatun'), (select id from movie where title = 'The Lion King'), '2021-12-13');
+INSERT INTO wish VALUES (uuid_generate_v4(), (select id from users where username = 'melisatun'), (select id from movie where title = 'The Shawshank Redemption'), '2022-02-15');
+INSERT INTO wish VALUES (uuid_generate_v4(), (select id from users where username = 'dorukkantarci'), (select id from movie where title = 'The Shawshank Redemption'), '2022-04-17');
+INSERT INTO wish VALUES (uuid_generate_v4(), (select id from users where username = 'dorukkantarci'), (select id from movie where title = 'Parasite'), '2022-05-16');
+INSERT INTO wish VALUES (uuid_generate_v4(), (select id from users where username = 'dorukkantarci'), (select id from movie where title = 'The Lion King'), '2020-08-21');
