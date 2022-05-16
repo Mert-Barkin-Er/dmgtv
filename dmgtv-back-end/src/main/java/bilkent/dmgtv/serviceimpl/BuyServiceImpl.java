@@ -20,6 +20,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class BuyServiceImpl extends BaseServiceImpl<Buy, BuyDto> implements BuyService
@@ -66,14 +67,8 @@ public class BuyServiceImpl extends BaseServiceImpl<Buy, BuyDto> implements BuyS
 			throw new EntityNotFoundException("Movie with title " + movieTitle + " is already bought by user " + username);
 		}
 
-		// create buy
-		Buy buy = new Buy();
-		buy.setMovie(movie.get());
-		buy.setUser(user.get());
-		buy.setPurchaseDate(new java.sql.Date(new java.util.Date().getTime()));
-
 		// save buy
-		buyRepository.save(buy);
+		buyRepository.insert(UUID.randomUUID(), user.get().getId(), movie.get().getId(), new java.sql.Date(new java.util.Date().getTime()));
 
 		// return buy
 		return buyMapper.entityToDto(buyRepository.getByMovieTitleAndUserUsername(movieTitle, username));
