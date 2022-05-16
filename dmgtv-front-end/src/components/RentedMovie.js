@@ -1,17 +1,25 @@
 import { Button, TextField, Rating, Card, CardContent, Dialog, DialogTitle, List, ListItem, Typography } from "@mui/material";
+import axios from "axios";
 import { useState } from "react";
 
 export default function RentedMovie(props) {
-    const [rating, setRating] = useState();
-    const [rateMovieDialogOpen, setRateMovieDialogOpen] = useState(false);
+    const [rating, setRating] = useState(5);
     const [reviewMovieDialogOpen, setReviewMovieDialogOpen] = useState(false);
     const [review, setReview] = useState("");
     const [editedReview, setEditedReview] = useState("");
 
     function reviewMovie(e) {
         e.preventDefault();
-        setReview(editedReview);
-        setReviewMovieDialogOpen(false);
+        axios.post("http://localhost:8080/review/add", {
+            username: JSON.parse(sessionStorage.getItem("username")),
+            movieId: props.id,
+            rating: rating,
+            comment: editedReview
+        }).then((res) => {
+            setReviewMovieDialogOpen(false);
+        }).catch((err) => {
+            console.log(err);
+        });
     }
 
     return (
@@ -22,27 +30,19 @@ export default function RentedMovie(props) {
                         {props.title}
                     </Typography>
                     <Typography>
-                        {props.production_year}
+                        {props.productionYear}
                     </Typography>
                 </CardContent>
             </Card>
-            <Button onClick={() => {setRateMovieDialogOpen(true);}}>
-                    Rate movie
-            </Button>
             <Button onClick={() => {setReviewMovieDialogOpen(true);}}>
                     Review movie
             </Button>
-            <Dialog open={rateMovieDialogOpen} onClose={() => {setRateMovieDialogOpen(false);}}>
-                <DialogTitle style={{margin: "2.5%"}}>
-                    Rate {props.title}
-                </DialogTitle>
-                <Rating size="large" onChange={(event, newValue) => {setRating(newValue);setRateMovieDialogOpen(false);}}/>
-            </Dialog>
             <Dialog open={reviewMovieDialogOpen} onClose={() => {setReviewMovieDialogOpen(false);}}>
                 <DialogTitle style={{margin: "2.5%"}}>
                     Review {props.title}
                 </DialogTitle>
                 <form noValidate autoComplete="off" onSubmit={(e) => {reviewMovie(e);}}>
+                    <Rating size="large" defaultValue={5} onChange={(event, newValue) => {setRating(newValue);}}/>
                     <TextField multiline label="Comment" defaultValue={review} onChange={(e) => {setEditedReview(e.target.value);}}/>
                     <Button type="submit">Send review</Button>
                 </form>

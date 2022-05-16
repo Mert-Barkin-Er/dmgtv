@@ -1,16 +1,36 @@
 import MUIDataTables from "mui-datatables";
-import { Button, Switch } from "@mui/material";
+import { Button, Switch, Snackbar } from "@mui/material";
 import UserNavbar from "./UserNavbar";
-import { useState } from "react";
-
-const myMovies = [
-    {"movie_id": 1, "title": "Test movie 1", "production_year": 2001, "rating": 4.3, "price_per_month": 23, "price_to_buy": 45, "age_restricted": true, "imdb_rating": 3.8, "like_count": 5},
-    {"movie_id": 2, "title": "Test movie 2", "production_year": 1995, "rating": 4.8, "price_per_month": 29, "price_to_buy": 99, "age_restricted": false, "imdb_rating": 3.9, "like_count": 34}
-];
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function MoviesPage() {
+    const [movies, setMovies] = useState([]);
+    const [rentSuccessful, setRentSuccessful] = useState(false);
 
-    const [movies, setMovies] = useState(myMovies);
+    useEffect(() => {
+        (async function() {
+            try {
+                const response = await axios.get("http://localhost:8080/movie/read");
+                console.log(response.data);
+                setMovies(response.data);
+            }
+            catch (error) {
+                console.log(error);
+            }
+        })();
+    }, []);
+
+    function rentMovie(title) {
+        const currentUser = JSON.parse(sessionStorage.getItem("username"));
+        const rentURL = "http://localhost:8080/rent/rentMovie/" + title + "/" + currentUser;
+        axios.post(rentURL).then((res) => {
+            setRentSuccessful(true);
+        }).catch((err) => {
+            console.log(err);
+            setRentSuccessful(false);
+        });
+    }
 
     const columns = [
         {
@@ -22,7 +42,7 @@ export default function MoviesPage() {
             }
         },
         {
-            name: "production_year",
+            name: "productionYear",
             label: "Production Year",
             options: {
                 filter: true,
@@ -38,7 +58,7 @@ export default function MoviesPage() {
             }
         },
         {
-            name: "price_per_month",
+            name: "pricePerMonth",
             label: "Price Per Month",
             options: {
                 filter: true,
@@ -46,7 +66,7 @@ export default function MoviesPage() {
             }
         },
         {
-            name: "price_to_buy",
+            name: "priceToBuy",
             label: "Price To Buy",
             options: {
                 filter: true,
@@ -54,13 +74,12 @@ export default function MoviesPage() {
             }
         },
         {
-            name: "age_restricted",
+            name: "ageRestricted",
             label: "Age restricted",
             options: {
                 filter: true,
                 sort: true,
                 customBodyRender: (value, tableMeta, updateValue) => {
-                    console.log(value);
                     return (
                         <div>
                             <Switch checked={value}/>
@@ -70,7 +89,7 @@ export default function MoviesPage() {
             }
         },
         {
-            name: "imdb_rating",
+            name: "imdbRating",
             label: "IMDB Rating",
             options: {
                 filter: true,
@@ -78,7 +97,7 @@ export default function MoviesPage() {
             }
         },
         {
-            name: "like_count",
+            name: "likeCount",
             label: "Like count",
             options: {
                 filter: true,
@@ -92,10 +111,10 @@ export default function MoviesPage() {
                 customBodyRender: (value, tableMeta, updateValue) => {
                     return (
                         <div>
-                            <Button onClick={() => {console.log(value, tableMeta);}}>
+                            <Button onClick={() => {rentMovie(tableMeta.rowData[0]);}}>
                                 Rent
                             </Button>
-                            <Button onClick={() => {console.log(value, tableMeta);}}>
+                            <Button onClick={() => {console.log(tableMeta);}}>
                                 Buy
                             </Button>
                         </div>
@@ -111,6 +130,7 @@ export default function MoviesPage() {
         <div>
             <UserNavbar/>
             <MUIDataTables title="Movie List" data={movies} columns={columns} options={options}/>
+            <Snackbar open={rentSuccessful} autoHideDuration={2000} message="Movie rented successfully!" onClose={() => {setRentSuccessful(false);}}/>
         </div>
     );
 }
