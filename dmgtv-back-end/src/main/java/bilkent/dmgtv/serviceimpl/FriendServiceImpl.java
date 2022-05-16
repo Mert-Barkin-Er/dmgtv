@@ -46,7 +46,33 @@ public class FriendServiceImpl extends BaseServiceImpl<Friend, FriendDto> implem
 			friendRepository.insert(UUID.randomUUID(), firstUsername, secondUsername);
 			// we need to add the friend to the second user
 			friendRepository.insert(UUID.randomUUID(), secondUsername, firstUsername);
-			return friendMapper.entityToDto(friendRepository.findByFirstUserUsernameAndSecondUserUsername(firstUsername, secondUsername));
+			return friendMapper.entityToDto(friendRepository.findByFirstUserUsernameAndSecondUserUsername(firstUsername, secondUsername).get());
+		}
+		else
+		{
+			throw new EntityNotFoundException("One/Both of the users not found");
+		}
+	}
+
+	public List<UserDto> deleteFriend(String firstUsername, String secondUsername)
+	{
+		Optional<User> firstUser = userRepository.findByUsername(firstUsername);
+		Optional<User> secondUser = userRepository.findByUsername(secondUsername);
+		if (firstUser.isPresent() && secondUser.isPresent()) {
+			List<UserDto> friends = new ArrayList<>();
+			friends.add(UserMapper.INSTANCE.entityToDto(firstUser.get()));
+			friends.add(UserMapper.INSTANCE.entityToDto(secondUser.get()));
+			Optional<Friend> friendOptionalFirst = friendRepository.findByFirstUserUsernameAndSecondUserUsername(firstUsername, secondUsername);
+			Optional<Friend> friendOptionalSecond = friendRepository.findByFirstUserUsernameAndSecondUserUsername(secondUsername, firstUsername);
+			if (friendOptionalFirst.isPresent() && friendOptionalSecond.isPresent()) {
+				friendRepository.delete(friendOptionalFirst.get());
+				friendRepository.delete(friendOptionalSecond.get());
+				return friends;
+			}
+			else
+			{
+				throw new EntityNotFoundException("Friend relation not found");
+			}
 		}
 		else
 		{

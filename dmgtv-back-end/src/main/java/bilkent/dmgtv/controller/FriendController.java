@@ -47,6 +47,29 @@ public class FriendController extends BaseController<FriendDto>
 		}
 	}
 
+	@PostMapping(value = "delete/{firstUsername}/{secondUsername}")
+	public ResponseEntity<RestResponse<List<UserDto>>> deleteFriend(@PathVariable String firstUsername, @PathVariable String secondUsername)
+	{
+		try
+		{
+			return new ResponseEntity<>(new RestResponse<>(friendService.deleteFriend(firstUsername, secondUsername),
+					"Remove Friend Relationship",
+					"Friend relationship deletion was successful"),
+					HttpStatus.OK);
+		}
+		catch (EntityNotFoundException e)
+		{
+			return new ResponseEntity<>(new RestResponse<>(null, "Remove Friend Relationship",
+					"Either one or both of the users are not found"),
+					HttpStatus.NOT_FOUND);
+		}
+		catch (Exception e)
+		{
+			return new ResponseEntity<>(new RestResponse<>(null, "Remove Friend Relationship","Unexpected error"),
+					HttpStatus.EXPECTATION_FAILED);
+		}
+	}
+
 	@GetMapping(value = "getFriends/{username}")
 	public ResponseEntity<RestResponse<List<UserDto>>> getFriends(@PathVariable String username)
 	{

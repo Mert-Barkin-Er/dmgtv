@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface FriendService extends BaseCrudService<FriendDto>
 {
-	FriendDto addFriend(String firstusername, String secondusername);
+	FriendDto addFriend(String firstUsername, String secondUsername);
 	List<UserDto> getFriends(String username);
+	List<UserDto> deleteFriend(String firstUsername, String secondUsername);
 }
