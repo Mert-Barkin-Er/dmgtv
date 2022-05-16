@@ -2,7 +2,6 @@ import { Button, List, ListItem, ListItemText, TextField, Snackbar } from "@mui/
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-
 export default function FriendList() {
     const [addFriendUnsuccessful, setAddFriendUnsuccessful] = useState(false);
     const [friends, setFriends] = useState([]);
