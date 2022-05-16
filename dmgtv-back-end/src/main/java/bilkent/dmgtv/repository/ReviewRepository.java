@@ -16,5 +16,6 @@ import java.util.UUID;
 public interface ReviewRepository extends BaseRepository<Review, UUID> {
     Optional<Review> findByUserIdAndMovieId(UUID userId, UUID movieId);
     List<Review> findAllByMovieId(UUID movieId);
+    List<Review> findAllByUserId(UUID userId);
 }
 

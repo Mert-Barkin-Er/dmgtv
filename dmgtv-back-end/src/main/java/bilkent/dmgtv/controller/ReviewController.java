@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 
 @RestController
 @RequestMapping("review")
@@ -25,6 +26,52 @@ public class ReviewController extends BaseController<ReviewDto>
     {
         super(reviewService);
         this.reviewService = reviewService;
+    }
+
+    @GetMapping(value = "get_user/{username}")
+    public ResponseEntity<RestResponse<List<ReviewDto>>> getUserReviews(@PathVariable String username)
+    {
+        try
+        {
+            return new ResponseEntity<>(new RestResponse<>(reviewService.getUserReviews(username), "Get User Reviews",
+                    "Entity retrieval was successful"),
+                    HttpStatus.OK);
+        }
+        catch (EntityNotFoundException e)
+        {
+            return new ResponseEntity<>(new RestResponse<>(null, "Get User Reviews",
+                    "Entity retrieval was unsuccessful due to an error"),
+                    HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+        catch (Exception e)
+        {
+            return new ResponseEntity<>(new RestResponse<>(null, "Get User Reviews",
+                    "Unexpected error"),
+                    HttpStatus.EXPECTATION_FAILED);
+        }
+    }
+
+    @GetMapping(value = "get_movie/{movieId}")
+    public ResponseEntity<RestResponse<List<ReviewDto>>> getMovieReviews(@PathVariable String movieId)
+    {
+        try
+        {
+            return new ResponseEntity<>(new RestResponse<>(reviewService.getMovieReviews(movieId), "Get Movie Reviews",
+                    "Entity retrieval was successful"),
+                    HttpStatus.OK);
+        }
+        catch (EntityNotFoundException e)
+        {
+            return new ResponseEntity<>(new RestResponse<>(null, "Get Movie Reviews",
+                    "Entity retrieval was unsuccessful due to an error"),
+                    HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+        catch (Exception e)
+        {
+            return new ResponseEntity<>(new RestResponse<>(null, "Get Movie Reviews",
+                    "Unexpected error"),
+                    HttpStatus.EXPECTATION_FAILED);
+        }
     }
 
     @PostMapping(value = "add")

@@ -3,6 +3,7 @@ package bilkent.dmgtv.serviceimpl;
 import bilkent.dmgtv.db.*;
 import bilkent.dmgtv.dto.FriendDto;
 import bilkent.dmgtv.dto.ReviewDto;
+import bilkent.dmgtv.dto.UserDto;
 import bilkent.dmgtv.repository.FriendRepository;
 import bilkent.dmgtv.repository.MovieRepository;
 import bilkent.dmgtv.repository.ReviewRepository;
@@ -68,6 +69,38 @@ public class ReviewServiceImpl extends BaseServiceImpl<Review, ReviewDto> implem
         ReviewDto newReviewDto = super.create(ReviewMapper.INSTANCE.entityToDto(entity));
         calculateRating(movieOptional.get().getId().toString());
         return newReviewDto;
+    }
+
+    public List<ReviewDto> getUserReviews(String username) throws EntityNotFoundException
+    {
+        if (username == null)
+        {
+            LOGGER.warn("Username cannot be empty");
+            throw new EntityNotFoundException();
+        }
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        if (!userOptional.isPresent()) {
+            LOGGER.warn("No such user");
+            throw new EntityNotFoundException();
+        }
+        List<ReviewDto> reviews = reviewMapper.entityListToDtoList(reviewRepository.findAllByUserId(userOptional.get().getId()));
+        return reviews;
+    }
+
+    public List<ReviewDto> getMovieReviews(String movieId) throws EntityNotFoundException
+    {
+        if (movieId == null)
+        {
+            LOGGER.warn("Movie id cannot be empty");
+            throw new EntityNotFoundException();
+        }
+        Optional<Movie> movieOptional = movieRepository.findById(UUID.fromString(movieId));
+        if (!movieOptional.isPresent()) {
+            LOGGER.warn("No such movie");
+            throw new EntityNotFoundException();
+        }
+        List<ReviewDto> reviews = reviewMapper.entityListToDtoList(reviewRepository.findAllByMovieId(UUID.fromString(movieId)));
+        return reviews;
     }
 
     public ReviewDto add(ReviewRequest reviewRequest) {
