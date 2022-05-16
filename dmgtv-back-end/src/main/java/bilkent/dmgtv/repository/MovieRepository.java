@@ -12,4 +12,6 @@ import java.util.UUID;
 @Repository
 public interface MovieRepository extends BaseRepository<Movie, UUID> {
     Optional<Movie> findByTitleAndProductionYear(String title, Integer year);
+    Boolean existsByTitle(String title);
+    Optional<Movie> findByTitle(String title);
 }
