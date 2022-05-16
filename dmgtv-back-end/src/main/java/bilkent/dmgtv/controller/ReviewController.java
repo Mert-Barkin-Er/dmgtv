@@ -28,7 +28,7 @@ public class ReviewController extends BaseController<ReviewDto>
         this.reviewService = reviewService;
     }
 
-    @GetMapping(value = "get_user/{username}")
+    @GetMapping(value = "user/{username}")
     public ResponseEntity<RestResponse<List<ReviewDto>>> getUserReviews(@PathVariable String username)
     {
         try
@@ -51,7 +51,7 @@ public class ReviewController extends BaseController<ReviewDto>
         }
     }
 
-    @GetMapping(value = "get_movie/{movieId}")
+    @GetMapping(value = "movie/{movieId}")
     public ResponseEntity<RestResponse<List<ReviewDto>>> getMovieReviews(@PathVariable String movieId)
     {
         try
