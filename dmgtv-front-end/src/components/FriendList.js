@@ -42,8 +42,8 @@ export default function FriendList() {
         <div>
             Friend List
             <List style={{maxHeight: '500px', overflow: 'auto', marginBottom: "5%"}}>
-                {friends.map((friend) => (
-                    <ListItem>
+                {friends.map((friend, index) => (
+                    <ListItem key={index}>
                         <ListItemText primary={friend.username}/>
                         <Button onClick={() => {removeFriend(friend);}}>Remove friend</Button>
                     </ListItem>

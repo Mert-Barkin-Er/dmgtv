@@ -15,11 +15,11 @@ export default function UserNavbar() {
                 <Link to="/friends" style={{margin: "25px 50px"}}>
                     Friends
                 </Link>
-                <Link to="/" style={{margin: "25px 50px"}} onClick={() => {sessionStorage.clear();}}>
-                    Log out
-                </Link>
                 <Link to="/mymovies" style={{margin: "25px 50px"}}>
                     Go to my movies
+                </Link>
+                <Link to="/" style={{margin: "25px 50px"}} onClick={() => {sessionStorage.clear();}}>
+                    Log out
                 </Link>
             </Toolbar>
         </AppBar>

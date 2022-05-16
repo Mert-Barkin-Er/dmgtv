@@ -1,5 +1,5 @@
 import MUIDataTables from "mui-datatables";
-import { Button, Switch, Snackbar } from "@mui/material";
+import { Button, Switch, Snackbar, Dialog, List, ListItem, Paper, Typography } from "@mui/material";
 import UserNavbar from "./UserNavbar";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -8,6 +8,8 @@ export default function MoviesPage() {
     const [movies, setMovies] = useState([]);
     const [rentSuccessful, setRentSuccessful] = useState(false);
     const [buySuccessful, setBuySuccessful] = useState(false);
+    const [seeReviews, setSeeReviews] = useState(false);
+    const [reviews, setReviews] = useState([]);
 
     useEffect(() => {
         (async function() {
@@ -41,6 +43,22 @@ export default function MoviesPage() {
         }).catch((err) => {
             console.log(err);
             setBuySuccessful(false);
+        });
+    }
+
+    function seeMovieReviews(title) {
+        let movieId;
+        for (let i in movies) {
+            if (movies[i].title === title) {
+                movieId = movies[i].id;
+            }
+        }
+        const reviewURL = "http://localhost:8080/review/movie/" + movieId;
+        axios.get(reviewURL).then((res) => {
+            setReviews(res.data.data);
+            setSeeReviews(true);
+        }).catch((err) => {
+            console.log(err);
         });
     }
 
@@ -120,14 +138,18 @@ export default function MoviesPage() {
             name: "actions",
             label: "Actions",
             options: {
+                filter: false,
                 customBodyRender: (value, tableMeta, updateValue) => {
                     return (
                         <div>
-                            <Button onClick={() => {rentMovie(tableMeta.rowData[0]);}}>
+                            <Button variant="outlined" onClick={() => {rentMovie(tableMeta.rowData[0]);}}>
                                 Rent
                             </Button>
-                            <Button onClick={() => {buyMovie(tableMeta.rowData[0]);}}>
+                            <Button variant="outlined" onClick={() => {buyMovie(tableMeta.rowData[0]);}}>
                                 Buy
+                            </Button>
+                            <Button variant="outlined" onClick={() => {seeMovieReviews(tableMeta.rowData[0]);}}>
+                                See reviews
                             </Button>
                         </div>
                     );
@@ -136,7 +158,7 @@ export default function MoviesPage() {
         }
     ];
 
-    const options = {download: false, print: false, selectableRows: "none"};
+    const options = {download: false, print: false, selectableRows: "none", filterType: "checkbox"};
 
     return (
         <div>
@@ -144,6 +166,28 @@ export default function MoviesPage() {
             <MUIDataTables title="Movie List" data={movies} columns={columns} options={options}/>
             <Snackbar open={rentSuccessful} autoHideDuration={2000} message="Movie rented successfully!" onClose={() => {setRentSuccessful(false);}}/>
             <Snackbar open={buySuccessful} autoHideDuration={2000} message="Movie bought successfully!" onClose={() => {setBuySuccessful(false);}}/>
+            <Dialog open={seeReviews} onClose={() => {setSeeReviews(false);}}>
+                <List>
+                    {reviews.map((review, index) => (
+                        <ListItem key={index}>
+                            <Paper variant="outlined">
+                                <Typography style={{margin: "2.5%"}}>
+                                    <strong>Reviewed by:</strong> {review.user.username}
+                                </Typography>
+                                <Typography style={{margin: "2.5%"}}>
+                                    <strong>Movie:</strong> {review.movie.title}
+                                </Typography>
+                                <Typography style={{margin: "2.5%"}}>
+                                    <strong>Rating:</strong> {review.rating} / 5
+                                </Typography>
+                                <Typography style={{margin: "2.5%"}}>
+                                    <strong>Comment:</strong> {review.comment}
+                                </Typography>
+                            </Paper>
+                        </ListItem>
+                    ))}
+                </List>
+            </Dialog>
         </div>
     );
 }

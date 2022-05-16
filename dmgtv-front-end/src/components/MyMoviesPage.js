@@ -1,5 +1,6 @@
 import { Button, Card, CardContent, Dialog, List, ListItem, Paper, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
+import BoughtMovie from "./BoughtMovie";
 import RentedMovie from "./RentedMovie";
 import UserNavbar from "./UserNavbar";
 import axios from "axios";
@@ -33,6 +34,19 @@ export default function MyMoviesPage() {
         })();
     }, []);
 
+    useEffect(() => {
+        (async function() {
+            try {
+                const response = await axios.get("http://localhost:8080/buy/getAllMovies/" + JSON.parse(sessionStorage.getItem("username")));
+                setBoughtMovies(response.data.data);
+                console.log(response.data.data)
+            }
+            catch (error) {
+                console.log(error);
+            }
+        })();
+    }, []);
+
     return (
         <div>
             <UserNavbar/>
@@ -43,6 +57,16 @@ export default function MyMoviesPage() {
                 {rentedMovies.map((movie, index) => (
                     <ListItem key={index}>
                         <RentedMovie id={movie.id} title={movie.title} productionYear={movie.productionYear}/>
+                    </ListItem>
+                ))}
+            </List>
+            <Typography variant="h4" component="div" style={{marginTop: "2.5%", marginBottom: "2.5%"}}>
+                Bought movies
+            </Typography>
+            <List>
+                {boughtMovies.map((movie, index) => (
+                    <ListItem key={index}>
+                        <BoughtMovie id={movie.id} title={movie.title} productionYear={movie.productionYear}/>
                     </ListItem>
                 ))}
             </List>

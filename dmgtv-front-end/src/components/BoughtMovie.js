@@ -1,13 +1,12 @@
-import { Button, TextField, Rating, Card, CardContent, Dialog, DialogTitle, Snackbar, Typography } from "@mui/material";
+import { Button, TextField, Rating, Card, CardContent, Dialog, DialogTitle, List, ListItem, Typography } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
 
-export default function RentedMovie(props) {
+export default function BoughtMovie(props) {
     const [rating, setRating] = useState(5);
     const [reviewMovieDialogOpen, setReviewMovieDialogOpen] = useState(false);
     const [review, setReview] = useState("");
     const [editedReview, setEditedReview] = useState("");
-    const [returnSuccessful, setReturnSuccessful] = useState(false);
 
     function reviewMovie(e) {
         e.preventDefault();
@@ -20,17 +19,6 @@ export default function RentedMovie(props) {
             setReviewMovieDialogOpen(false);
         }).catch((err) => {
             console.log(err);
-        });
-    }
-
-    function returnMovie(title) {
-        const currentUser = JSON.parse(sessionStorage.getItem("username"));
-        const rentURL = "http://localhost:8080/rent/stopRent/" + title + "/" + currentUser;
-        axios.put(rentURL).then((res) => {
-            setReturnSuccessful(true);
-        }).catch((err) => {
-            console.log(err);
-            setReturnSuccessful(false);
         });
     }
 
@@ -49,10 +37,6 @@ export default function RentedMovie(props) {
             <Button onClick={() => {setReviewMovieDialogOpen(true);}}>
                     Review movie
             </Button>
-            <Button onClick={() => {returnMovie(props.title);}}>
-                    Return movie
-            </Button>
-            <Snackbar open={returnSuccessful} autoHideDuration={2000} message="Movie returned successfully! Refresh page" onClose={() => {setReturnSuccessful(false);}}/>
             <Dialog open={reviewMovieDialogOpen} onClose={() => {setReviewMovieDialogOpen(false);}}>
                 <DialogTitle style={{margin: "2.5%"}}>
                     Review {props.title}
