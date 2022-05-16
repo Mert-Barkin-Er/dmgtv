@@ -7,6 +7,7 @@ import axios from "axios";
 export default function MoviesPage() {
     const [movies, setMovies] = useState([]);
     const [rentSuccessful, setRentSuccessful] = useState(false);
+    const [buySuccessful, setBuySuccessful] = useState(false);
 
     useEffect(() => {
         (async function() {
@@ -29,6 +30,17 @@ export default function MoviesPage() {
         }).catch((err) => {
             console.log(err);
             setRentSuccessful(false);
+        });
+    }
+
+    function buyMovie(title) {
+        const currentUser = JSON.parse(sessionStorage.getItem("username"));
+        const rentURL = "http://localhost:8080/buy/buyMovie/" + title + "/" + currentUser;
+        axios.post(rentURL).then((res) => {
+            setBuySuccessful(true);
+        }).catch((err) => {
+            console.log(err);
+            setBuySuccessful(false);
         });
     }
 
@@ -114,7 +126,7 @@ export default function MoviesPage() {
                             <Button onClick={() => {rentMovie(tableMeta.rowData[0]);}}>
                                 Rent
                             </Button>
-                            <Button onClick={() => {console.log(tableMeta);}}>
+                            <Button onClick={() => {buyMovie(tableMeta.rowData[0]);}}>
                                 Buy
                             </Button>
                         </div>
@@ -131,6 +143,7 @@ export default function MoviesPage() {
             <UserNavbar/>
             <MUIDataTables title="Movie List" data={movies} columns={columns} options={options}/>
             <Snackbar open={rentSuccessful} autoHideDuration={2000} message="Movie rented successfully!" onClose={() => {setRentSuccessful(false);}}/>
+            <Snackbar open={buySuccessful} autoHideDuration={2000} message="Movie bought successfully!" onClose={() => {setBuySuccessful(false);}}/>
         </div>
     );
 }

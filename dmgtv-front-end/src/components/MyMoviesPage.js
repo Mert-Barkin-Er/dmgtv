@@ -1,4 +1,4 @@
-import { Button, Card, CardContent, Dialog, List, ListItem, Typography } from "@mui/material";
+import { Button, Card, CardContent, Dialog, List, ListItem, Paper, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import RentedMovie from "./RentedMovie";
 import UserNavbar from "./UserNavbar";
@@ -6,13 +6,26 @@ import axios from "axios";
 
 export default function MyMoviesPage() {
     const [rentedMovies, setRentedMovies] = useState([]);
+    const [boughtMovies, setBoughtMovies] = useState([]);
+    const [reviews, setReviews] = useState([]);
 
     useEffect(() => {
         (async function() {
             try {
                 const response = await axios.get("http://localhost:8080/rent/getMovies/" + JSON.parse(sessionStorage.getItem("username")));
-                console.log(response.data.data);
                 setRentedMovies(response.data.data);
+            }
+            catch (error) {
+                console.log(error);
+            }
+        })();
+    }, []);
+
+    useEffect(() => {
+        (async function() {
+            try {
+                const response = await axios.get("http://localhost:8080/review/user/" + JSON.parse(sessionStorage.getItem("username")));
+                setReviews(response.data.data);
             }
             catch (error) {
                 console.log(error);
@@ -23,13 +36,33 @@ export default function MyMoviesPage() {
     return (
         <div>
             <UserNavbar/>
-            <Typography variant="h5" component="div" style={{marginTop: "2.5%", marginBottom: "2.5%"}}>
+            <Typography variant="h4" component="div" style={{marginTop: "2.5%", marginBottom: "2.5%"}}>
                 Rented movies
             </Typography>
             <List>
                 {rentedMovies.map((movie, index) => (
                     <ListItem key={index}>
                         <RentedMovie id={movie.id} title={movie.title} productionYear={movie.productionYear}/>
+                    </ListItem>
+                ))}
+            </List>
+            <Typography variant="h5" component="div" style={{marginTop: "2.5%", marginBottom: "2.5%"}}>
+                My movie reviews
+            </Typography>
+            <List>
+                {reviews.map((review, index) => (
+                    <ListItem key={index}>
+                        <Paper variant="outlined">
+                            <Typography style={{margin: "2.5%"}}>
+                                <strong>Movie:</strong> {review.movie.title}
+                            </Typography>
+                            <Typography style={{margin: "2.5%"}}>
+                                <strong>Rating:</strong> {review.rating} / 5
+                            </Typography>
+                            <Typography style={{margin: "2.5%"}}>
+                                <strong>Comment:</strong> {review.comment}
+                            </Typography>
+                        </Paper>
                     </ListItem>
                 ))}
             </List>
