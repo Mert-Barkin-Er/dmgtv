@@ -11,10 +11,10 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "rent", uniqueConstraints = {
-		@UniqueConstraint(
-				columnNames = {"user_id", "movie_id", "start_date"})
-})
+//@Table(name = "rent", uniqueConstraints = {
+//		@UniqueConstraint(
+//				columnNames = {"user_id", "movie_id", "start_date"})
+//})
 public class Rent extends BaseEntity
 {
 	@ManyToOne(cascade = CascadeType.MERGE)

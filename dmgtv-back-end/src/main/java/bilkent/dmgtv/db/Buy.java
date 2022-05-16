@@ -14,10 +14,10 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "buy", uniqueConstraints = {
-		@UniqueConstraint(
-				columnNames = {"user_id", "movie_id"})
-})
+//@Table(name = "buy", uniqueConstraints = {
+//		@UniqueConstraint(
+//				columnNames = {"user_id", "movie_id"})
+//})
 public class Buy extends BaseEntity
 {
 	@ManyToOne(cascade = CascadeType.MERGE)
