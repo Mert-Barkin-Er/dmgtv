@@ -67,9 +67,9 @@ CREATE TABLE friend(
 
 -- Default data
 --users
-INSERT INTO users VALUES (uuid_generate_v4(), 'mertbarkıner', 'password1', 'Mert Barkın Er', '2001-01-01');
+INSERT INTO users VALUES (uuid_generate_v4(), 'mertbarkiner', 'password1', 'Mert Barkın Er', '2001-01-01');
 INSERT INTO users VALUES (uuid_generate_v4(), 'gokberkbeydemir', 'password2', 'Gökberk Beydemir', '2001-01-01');
-INSERT INTO users VALUES (uuid_generate_v4(), 'dorukkantarcı', 'password3', 'Doruk Kantarcı', '2002-01-01');
+INSERT INTO users VALUES (uuid_generate_v4(), 'dorukkantarci', 'password3', 'Doruk Kantarcı', '2002-01-01');
 INSERT INTO users VALUES (uuid_generate_v4(), 'melisatun', 'password4', 'Melis Atun', '2000-01-01');
 INSERT INTO users VALUES (uuid_generate_v4(), 'berkeucar', 'password5', 'Berke Uçar', '2002-01-01');
 INSERT INTO users VALUES (uuid_generate_v4(), 'efeerturk', 'password6', 'Efe Erturk', '1997-01-01');
@@ -98,25 +98,25 @@ INSERT INTO movie VALUES (uuid_generate_v4(), 'Begin Again', 2013, 0, 4, 40, fal
 INSERT INTO movie VALUES (uuid_generate_v4(), 'La La Land', 2016, 0, 7, 70, false, 8, 0);
 
 --reviews
-INSERT INTO review VALUES (uuid_generate_v4(), (select id from users where username = 'mertbarkıner'), (select id from movie where title = 'The Shawshank Redemption'), 4, 'The Shawshank Redemption is a great movie. I loved it.');
+INSERT INTO review VALUES (uuid_generate_v4(), (select id from users where username = 'mertbarkiner'), (select id from movie where title = 'The Shawshank Redemption'), 4, 'The Shawshank Redemption is a great movie. I loved it.');
 INSERT INTO review VALUES (uuid_generate_v4(), (select id from users where username = 'gokberkbeydemir'), (select id from movie where title = 'The Batman'), 5, 'Best movie of the year!');
 INSERT INTO review VALUES (uuid_generate_v4(), (select id from users where username = 'melisatun'), (select id from movie where title = 'The Godfather'), 5, 'Best movie ever!');
 INSERT INTO review VALUES (uuid_generate_v4(), (select id from users where username = 'efebeydogan'), (select id from movie where title = 'The Batman'), 3, 'I did not like it.');
 INSERT INTO review VALUES (uuid_generate_v4(), (select id from users where username = 'ardaonal'), (select id from movie where title = 'The Batman'), 1, 'I hated it!');
 
 --friends
-INSERT INTO friend VALUES (uuid_generate_v4(), 'mertbarkıner', 'gokberkbeydemir');
-INSERT INTO friend VALUES (uuid_generate_v4(), 'mertbarkıner', 'melisatun');
-INSERT INTO friend VALUES (uuid_generate_v4(), 'gokberkbeydemir', 'mertbarkıner');
-INSERT INTO friend VALUES (uuid_generate_v4(), 'melisatun', 'mertbarkıner');
+INSERT INTO friend VALUES (uuid_generate_v4(), 'mertbarkiner', 'gokberkbeydemir');
+INSERT INTO friend VALUES (uuid_generate_v4(), 'mertbarkiner', 'melisatun');
+INSERT INTO friend VALUES (uuid_generate_v4(), 'gokberkbeydemir', 'mertbarkiner');
+INSERT INTO friend VALUES (uuid_generate_v4(), 'melisatun', 'mertbarkiner');
 INSERT INTO friend VALUES (uuid_generate_v4(), 'melisatun', 'gokberkbeydemir');
 INSERT INTO friend VALUES (uuid_generate_v4(), 'gokberkbeydemir', 'melisatun');
-INSERT INTO friend VALUES (uuid_generate_v4(), 'mertbarkıner', 'dorukkantarcı');
-INSERT INTO friend VALUES (uuid_generate_v4(), 'dorukkantarcı', 'mertbarkıner');
-INSERT INTO friend VALUES (uuid_generate_v4(), 'dorukkantarcı', 'melisatun');
-INSERT INTO friend VALUES (uuid_generate_v4(), 'melisatun', 'dorukkantarcı');
-INSERT INTO friend VALUES (uuid_generate_v4(), 'dorukkantarcı', 'gokberkbeydemir');
-INSERT INTO friend VALUES (uuid_generate_v4(), 'gokberkbeydemir', 'dorukkantarcı');
+INSERT INTO friend VALUES (uuid_generate_v4(), 'mertbarkiner', 'dorukkantarci');
+INSERT INTO friend VALUES (uuid_generate_v4(), 'dorukkantarci', 'mertbarkiner');
+INSERT INTO friend VALUES (uuid_generate_v4(), 'dorukkantarci', 'melisatun');
+INSERT INTO friend VALUES (uuid_generate_v4(), 'melisatun', 'dorukkantarci');
+INSERT INTO friend VALUES (uuid_generate_v4(), 'dorukkantarci', 'gokberkbeydemir');
+INSERT INTO friend VALUES (uuid_generate_v4(), 'gokberkbeydemir', 'dorukkantarci');
 
 --movie requests
 INSERT INTO request VALUES (uuid_generate_v4(), 'The Princess Bride', 1987);
@@ -125,29 +125,29 @@ INSERT INTO request VALUES (uuid_generate_v4(), '12 Angry Men', 1957);
 INSERT INTO request VALUES (uuid_generate_v4(), 'Pulp Fiction', 1994);
 
 --rent
-INSERT INTO rent VALUES (uuid_generate_v4(), (select id from users where username = 'mertbarkıner'), (select id from movie where title = 'The Godfather'), '2019-05-05', '2019-06-05');
-INSERT INTO rent VALUES (uuid_generate_v4(), (select id from users where username = 'mertbarkıner'), (select id from movie where title = 'The Shawshank Redemption'), '2020-08-05', '2021-01-01');
-INSERT INTO rent VALUES (uuid_generate_v4(), (select id from users where username = 'mertbarkıner'), (select id from movie where title = 'The Lord of the Rings: The Return of the King'), '2021-02-03', '2021-03-04');
+INSERT INTO rent VALUES (uuid_generate_v4(), (select id from users where username = 'mertbarkiner'), (select id from movie where title = 'The Godfather'), '2019-05-05', '2019-06-05');
+INSERT INTO rent VALUES (uuid_generate_v4(), (select id from users where username = 'mertbarkiner'), (select id from movie where title = 'The Shawshank Redemption'), '2020-08-05', '2021-01-01');
+INSERT INTO rent VALUES (uuid_generate_v4(), (select id from users where username = 'mertbarkiner'), (select id from movie where title = 'The Lord of the Rings: The Return of the King'), '2021-02-03', '2021-03-04');
 INSERT INTO rent VALUES (uuid_generate_v4(), (select id from users where username = 'gokberkbeydemir'), (select id from movie where title = 'The Dark Knight'), '2021-04-05', '2021-05-06');
 INSERT INTO rent VALUES (uuid_generate_v4(), (select id from users where username = 'gokberkbeydemir'), (select id from movie where title = 'The Godfather'), '2021-06-07', '2021-07-08');
 INSERT INTO rent VALUES (uuid_generate_v4(), (select id from users where username = 'gokberkbeydemir'), (select id from movie where title = 'The Lord of the Rings: The Return of the King'), '2021-08-09', '2021-09-10');
 INSERT INTO rent VALUES (uuid_generate_v4(), (select id from users where username = 'melisatun'), (select id from movie where title = 'The Dark Knight'), '2021-10-11', '2021-11-12');
 INSERT INTO rent VALUES (uuid_generate_v4(), (select id from users where username = 'melisatun'), (select id from movie where title = 'The Godfather'), '2021-12-13', '2022-01-14');
 INSERT INTO rent VALUES (uuid_generate_v4(), (select id from users where username = 'melisatun'), (select id from movie where title = 'The Lord of the Rings: The Return of the King'), '2022-02-15', null);
-INSERT INTO rent VALUES (uuid_generate_v4(), (select id from users where username = 'dorukkantarcı'), (select id from movie where title = 'The Dark Knight'), '2022-04-17', '2022-05-16');
-INSERT INTO rent VALUES (uuid_generate_v4(), (select id from users where username = 'dorukkantarcı'), (select id from movie where title = 'The Godfather'), '2022-05-19', null);
-INSERT INTO rent VALUES (uuid_generate_v4(), (select id from users where username = 'dorukkantarcı'), (select id from movie where title = 'The Lord of the Rings: The Return of the King'), '2022-08-21', null);
+INSERT INTO rent VALUES (uuid_generate_v4(), (select id from users where username = 'dorukkantarci'), (select id from movie where title = 'The Dark Knight'), '2022-04-17', '2022-05-16');
+INSERT INTO rent VALUES (uuid_generate_v4(), (select id from users where username = 'dorukkantarci'), (select id from movie where title = 'The Godfather'), '2022-05-19', null);
+INSERT INTO rent VALUES (uuid_generate_v4(), (select id from users where username = 'dorukkantarci'), (select id from movie where title = 'The Lord of the Rings: The Return of the King'), '2022-08-21', null);
 
 --buy
-INSERT INTO buy VALUES (uuid_generate_v4(), (select id from users where username = 'mertbarkıner'), (select id from movie where title = 'The Godfather'), '2019-05-05');
-INSERT INTO buy VALUES (uuid_generate_v4(), (select id from users where username = 'mertbarkıner'), (select id from movie where title = 'The Shawshank Redemption'), '2020-08-05');
-INSERT INTO buy VALUES (uuid_generate_v4(), (select id from users where username = 'mertbarkıner'), (select id from movie where title = 'The Lord of the Rings: The Return of the King'), '2021-02-03');
+INSERT INTO buy VALUES (uuid_generate_v4(), (select id from users where username = 'mertbarkiner'), (select id from movie where title = 'The Godfather'), '2019-05-05');
+INSERT INTO buy VALUES (uuid_generate_v4(), (select id from users where username = 'mertbarkiner'), (select id from movie where title = 'The Shawshank Redemption'), '2020-08-05');
+INSERT INTO buy VALUES (uuid_generate_v4(), (select id from users where username = 'mertbarkiner'), (select id from movie where title = 'The Lord of the Rings: The Return of the King'), '2021-02-03');
 INSERT INTO buy VALUES (uuid_generate_v4(), (select id from users where username = 'gokberkbeydemir'), (select id from movie where title = 'The Dark Knight'), '2021-04-05');
 INSERT INTO buy VALUES (uuid_generate_v4(), (select id from users where username = 'gokberkbeydemir'), (select id from movie where title = 'The Godfather'), '2021-06-07');
 INSERT INTO buy VALUES (uuid_generate_v4(), (select id from users where username = 'gokberkbeydemir'), (select id from movie where title = 'The Lord of the Rings: The Return of the King'), '2021-08-09');
 INSERT INTO buy VALUES (uuid_generate_v4(), (select id from users where username = 'melisatun'), (select id from movie where title = 'The Dark Knight'), '2021-10-11');
 INSERT INTO buy VALUES (uuid_generate_v4(), (select id from users where username = 'melisatun'), (select id from movie where title = 'The Godfather'), '2021-12-13');
 INSERT INTO buy VALUES (uuid_generate_v4(), (select id from users where username = 'melisatun'), (select id from movie where title = 'The Lord of the Rings: The Return of the King'), '2022-02-15');
-INSERT INTO buy VALUES (uuid_generate_v4(), (select id from users where username = 'dorukkantarcı'), (select id from movie where title = 'The Dark Knight'), '2022-04-17');
-INSERT INTO buy VALUES (uuid_generate_v4(), (select id from users where username = 'dorukkantarcı'), (select id from movie where title = 'The Godfather'), '2022-05-16');
-INSERT INTO buy VALUES (uuid_generate_v4(), (select id from users where username = 'dorukkantarcı'), (select id from movie where title = 'The Lord of the Rings: The Return of the King'), '2020-08-21');
+INSERT INTO buy VALUES (uuid_generate_v4(), (select id from users where username = 'dorukkantarci'), (select id from movie where title = 'The Dark Knight'), '2022-04-17');
+INSERT INTO buy VALUES (uuid_generate_v4(), (select id from users where username = 'dorukkantarci'), (select id from movie where title = 'The Godfather'), '2022-05-16');
+INSERT INTO buy VALUES (uuid_generate_v4(), (select id from users where username = 'dorukkantarci'), (select id from movie where title = 'The Lord of the Rings: The Return of the King'), '2020-08-21');
