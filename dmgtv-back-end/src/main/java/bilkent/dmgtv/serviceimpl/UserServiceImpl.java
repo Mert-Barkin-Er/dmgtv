@@ -2,6 +2,7 @@ package bilkent.dmgtv.serviceimpl;
 
 import bilkent.dmgtv.db.LoginRequest;
 import bilkent.dmgtv.db.RegisterRequest;
+import bilkent.dmgtv.db.UpdateUserRequest;
 import bilkent.dmgtv.db.User;
 import bilkent.dmgtv.dto.UserDto;
 import bilkent.dmgtv.repository.UserRepository;
@@ -46,6 +47,25 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDto> implements U
 		}
 		UserDto candidateUser = userMapper.entityToDto(userOptional.get());
 		return candidateUser;
+	}
+
+	public UserDto update(UpdateUserRequest updateUserRequest) throws EntityNotFoundException
+	{
+		if (updateUserRequest.getUsername() == null || updateUserRequest.getPassword() == null )
+		{
+			LOGGER.warn("Update credentials cannot be empty");
+			throw new EntityNotFoundException();
+		}
+		Optional<User> userOptional = userRepository.findByUsername(updateUserRequest.getUsername());
+		if (!userOptional.isPresent()) {
+			LOGGER.warn("No such user");
+			throw new EntityNotFoundException();
+		}
+		userOptional.get().setFullName(updateUserRequest.getFullName());
+		userOptional.get().setBirthDate(new Date(updateUserRequest.getYear() - 1900, updateUserRequest.getMonth(), updateUserRequest.getDate()));
+		userOptional.get().setPassword(updateUserRequest.getPassword());
+		userRepository.save(userOptional.get());
+		return userMapper.entityToDto(userOptional.get());
 	}
 
 	public UserDto login(LoginRequest loginRequest) throws EntityNotFoundException

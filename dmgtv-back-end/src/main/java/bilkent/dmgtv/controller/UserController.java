@@ -3,6 +3,7 @@ package bilkent.dmgtv.controller;
 import bilkent.dmgtv.controller.base.BaseController;
 import bilkent.dmgtv.db.LoginRequest;
 import bilkent.dmgtv.db.RegisterRequest;
+import bilkent.dmgtv.db.UpdateUserRequest;
 import bilkent.dmgtv.dto.UserDto;
 import bilkent.dmgtv.dto.base.RestResponse;
 import bilkent.dmgtv.service.UserService;
@@ -47,6 +48,28 @@ public class UserController extends BaseController<UserDto>
 		catch (Exception e)
 		{
 			return new ResponseEntity<>(new RestResponse<>(null, "Get","Unexpected error"),
+					HttpStatus.EXPECTATION_FAILED);
+		}
+	}
+
+	@PostMapping(value = "update")
+	public ResponseEntity<RestResponse<UserDto>> update(@RequestBody UpdateUserRequest updateUserRequest)
+	{
+		try
+		{
+			return new ResponseEntity<>(new RestResponse<>(userService.update(updateUserRequest), "Update User",
+					"Entity update was successful"),
+					HttpStatus.OK);
+		}
+		catch (EntityNotFoundException e)
+		{
+			return new ResponseEntity<>(new RestResponse<>(null, "Update User",
+					"Entity update was unsuccessful due to an error"),
+					HttpStatus.UNPROCESSABLE_ENTITY);
+		}
+		catch (Exception e)
+		{
+			return new ResponseEntity<>(new RestResponse<>(null, "Update User","Unexpected error"),
 					HttpStatus.EXPECTATION_FAILED);
 		}
 	}
