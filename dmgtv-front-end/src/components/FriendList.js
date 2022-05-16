@@ -21,8 +21,14 @@ export default function FriendList() {
     }, []);
 
     function removeFriend(friend) {
-        let index = friends.indexOf(friend);
-        setFriends(friends.slice(0, index).concat(friends.slice(index + 1)));
+        const currentUser = JSON.parse(sessionStorage.getItem("username"));
+        const friendURL = "http://localhost:8080/friend/delete/" + currentUser + "/" + friend.username;
+        axios.post(friendURL).then((res) => {
+            let index = friends.indexOf(friend);
+            setFriends(friends.slice(0, index).concat(friends.slice(index + 1)));
+        }).catch((err) => {
+            console.log(err);
+        });
     }
 
     function addFriend(e) {
