@@ -17,10 +17,10 @@ import javax.persistence.*;
 public class Friend extends BaseEntity
 {
 	@ManyToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name = "first_username", referencedColumnName = "username")
+	@JoinColumn(name = "first_username", referencedColumnName = "username", nullable = false)
 	private User firstUser;
 
 	@ManyToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name = "second_username", referencedColumnName = "username")
+	@JoinColumn(name = "second_username", referencedColumnName = "username", nullable = false)
 	private User secondUser;
 }

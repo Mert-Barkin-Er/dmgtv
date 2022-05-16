@@ -1,7 +1,12 @@
 package bilkent.dmgtv;
 
+import bilkent.dmgtv.db.ReviewRequest;
+import bilkent.dmgtv.dto.MovieDto;
+import bilkent.dmgtv.dto.ReviewDto;
 import bilkent.dmgtv.dto.UserDto;
 import bilkent.dmgtv.repository.UserRepository;
+import bilkent.dmgtv.service.MovieService;
+import bilkent.dmgtv.service.ReviewService;
 import bilkent.dmgtv.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -19,6 +24,8 @@ public class DmgtvApplication {
 
 	@Bean
 	CommandLineRunner run(UserService userService,
+						  MovieService movieService,
+						  ReviewService reviewService,
 						  UserRepository userRepository) {
 		return args -> {
 			UserDto userDto1 = new UserDto("mertbarkıner", "password1",
@@ -51,6 +58,27 @@ public class DmgtvApplication {
 			userService.create(userDto8);
 			userService.create(userDto9);
 			userService.create(userDto10);
+
+			MovieDto movieDto1 = new MovieDto("The Batman", 2022, 0,
+					10, 100, true, 8,0);
+			MovieDto movieDto2 = new MovieDto("Parasite", 2019, 0,
+					8, 80, false, 8.5,0);
+			MovieDto movieDto3 = new MovieDto("Begin Again", 2013, 0,
+					4, 40, false, 7.4,0);
+			MovieDto movieDto4 = new MovieDto("Begin Again", 2013, 0,
+					4, 40, false, 7.4,0);
+			MovieDto movieDto5 = new MovieDto("La La Land", 2016, 0,
+					7, 70, false, 8,0);
+			movieService.create(movieDto1);
+			movieService.create(movieDto2);
+			movieService.create(movieDto3);
+			movieService.create(movieDto4);
+			movieService.create(movieDto5);
+
+			ReviewDto reviewDto1 = new ReviewDto(userDto1, movieDto1, 4, "Great movie");
+			ReviewDto reviewDto2 = new ReviewDto(userDto2, movieDto1, 5, "Best movie of the year");
+			reviewService.create(reviewDto1);
+			reviewService.create(reviewDto2);
 
 		};
 	}

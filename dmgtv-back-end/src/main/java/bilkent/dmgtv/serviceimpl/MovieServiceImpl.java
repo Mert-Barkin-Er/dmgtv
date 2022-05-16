@@ -24,4 +24,6 @@ public class MovieServiceImpl extends BaseServiceImpl<Movie, MovieDto> implement
 		this.movieRepository = movieRepository;
 		this.movieMapper = movieMapper;
 	}
+
+
 }

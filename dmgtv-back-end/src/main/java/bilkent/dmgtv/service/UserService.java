@@ -9,4 +9,5 @@ public interface UserService extends BaseCrudService<UserDto>
 {
     UserDto login(LoginRequest loginRequest);
     UserDto register(RegisterRequest registerRequest);
+    UserDto get(String username);
 }

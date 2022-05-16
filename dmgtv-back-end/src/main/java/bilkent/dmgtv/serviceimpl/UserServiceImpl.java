@@ -32,6 +32,22 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDto> implements U
 		this.userMapper = userMapper;
 	}
 
+	public UserDto get(String username) throws EntityNotFoundException
+	{
+		if (username == null)
+		{
+			LOGGER.warn("Username cannot be empty");
+			throw new EntityNotFoundException();
+		}
+		Optional<User> userOptional = userRepository.findByUsername(username);
+		if (!userOptional.isPresent()) {
+			LOGGER.warn("No such user");
+			throw new EntityNotFoundException();
+		}
+		UserDto candidateUser = userMapper.entityToDto(userOptional.get());
+		return candidateUser;
+	}
+
 	public UserDto login(LoginRequest loginRequest) throws EntityNotFoundException
 	{
 		if (loginRequest.getUsername() == null || loginRequest.getPassword() == null )

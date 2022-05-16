@@ -5,5 +5,5 @@ import bilkent.dmgtv.service.base.BaseCrudService;
 
 public interface FriendService extends BaseCrudService<FriendDto>
 {
-	FriendDto addFriend(String firstusername, String secondusername);
+	FriendDto add(String firstusername, String secondusername);
 }

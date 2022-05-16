@@ -8,12 +8,10 @@ import bilkent.dmgtv.dto.base.RestResponse;
 import bilkent.dmgtv.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("user")
@@ -24,6 +22,33 @@ public class UserController extends BaseController<UserDto>
 	public UserController(UserService userService) {
 		super(userService);
 		this.userService = userService;
+	}
+
+	/**
+	 * Reads the entity with the username.
+	 * @param username of the entity which is going to be returned.
+	 * @return the entity in dto form.
+	 */
+	@GetMapping(value = "get/{username}")
+	public ResponseEntity<RestResponse<UserDto>> read(@PathVariable String username)
+	{
+		try
+		{
+			return new ResponseEntity<>(new RestResponse<>(userService.get(username), "Get",
+					"Entity retrieval was successful"),
+					HttpStatus.OK);
+		}
+		catch (EntityNotFoundException e)
+		{
+			return new ResponseEntity<>(new RestResponse<>(null, "Get",
+					"Entity retrieval was unsuccessful due to an error"),
+					HttpStatus.UNPROCESSABLE_ENTITY);
+		}
+		catch (Exception e)
+		{
+			return new ResponseEntity<>(new RestResponse<>(null, "Get","Unexpected error"),
+					HttpStatus.EXPECTATION_FAILED);
+		}
 	}
 
 	/**

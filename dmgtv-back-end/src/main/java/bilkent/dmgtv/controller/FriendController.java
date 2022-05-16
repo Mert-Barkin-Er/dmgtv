@@ -29,7 +29,7 @@ public class FriendController extends BaseController<FriendDto>
 	{
 		try
 		{
-			return new ResponseEntity<>(new RestResponse<>(friendService.addFriend(firstusername, secondusername),
+			return new ResponseEntity<>(new RestResponse<>(friendService.add(firstusername, secondusername),
 					"Create Friend Relationship",
 					"Friend relationship creation was successful"),
 					HttpStatus.OK);

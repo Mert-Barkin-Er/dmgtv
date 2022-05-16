@@ -35,10 +35,10 @@ public class FriendServiceImpl extends BaseServiceImpl<Friend, FriendDto> implem
 		this.userRepository = userRepository;
 	}
 
-	public FriendDto addFriend(String firstusername, String secondusername)
+	public FriendDto add(String firstUsername, String secondUsername)
 	{
-		Optional<User> firstUser = userRepository.findByUsername(firstusername);
-		Optional<User> secondUser = userRepository.findByUsername(secondusername);
+		Optional<User> firstUser = userRepository.findByUsername(firstUsername);
+		Optional<User> secondUser = userRepository.findByUsername(secondUsername);
 		if (firstUser.isPresent() && secondUser.isPresent()){
 			// we need to add the friend to the first user
 			Friend friend = new Friend();
