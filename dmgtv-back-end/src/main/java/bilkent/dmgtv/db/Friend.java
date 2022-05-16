@@ -10,10 +10,10 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "friend", uniqueConstraints = {
-		@UniqueConstraint(
-				columnNames = {"first_username", "second_username"})
-})
+//@Table(name = "friend", uniqueConstraints = {
+//		@UniqueConstraint(
+//				columnNames = {"first_username", "second_username"})
+//})
 public class Friend extends BaseEntity
 {
 	@ManyToOne(cascade = CascadeType.MERGE)
