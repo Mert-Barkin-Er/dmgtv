@@ -1,7 +1,6 @@
 package bilkent.dmgtv.controller;
 
 import bilkent.dmgtv.controller.base.BaseController;
-import bilkent.dmgtv.db.LoginRequest;
 import bilkent.dmgtv.dto.FriendDto;
 import bilkent.dmgtv.dto.UserDto;
 import bilkent.dmgtv.dto.base.RestResponse;
