@@ -18,6 +18,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class FriendServiceImpl extends BaseServiceImpl<Friend, FriendDto> implements FriendService
@@ -42,15 +43,10 @@ public class FriendServiceImpl extends BaseServiceImpl<Friend, FriendDto> implem
 		Optional<User> secondUser = userRepository.findByUsername(secondUsername);
 		if (firstUser.isPresent() && secondUser.isPresent()){
 			// we need to add the friend to the first user
-			Friend friend = new Friend();
-			friend.setFirstUser(firstUser.get());
-			friend.setSecondUser(secondUser.get());
-			super.create(FriendMapper.INSTANCE.entityToDto(friend));
+			friendRepository.insert(UUID.randomUUID(), firstUsername, secondUsername);
 			// we need to add the friend to the second user
-			friend = new Friend();
-			friend.setFirstUser(secondUser.get());
-			friend.setSecondUser(firstUser.get());
-			return super.create(FriendMapper.INSTANCE.entityToDto(friend));
+			friendRepository.insert(UUID.randomUUID(), secondUsername, firstUsername);
+			return friendMapper.entityToDto(friendRepository.findByFirstUserUsernameAndSecondUserUsername(firstUsername, secondUsername));
 		}
 		else
 		{

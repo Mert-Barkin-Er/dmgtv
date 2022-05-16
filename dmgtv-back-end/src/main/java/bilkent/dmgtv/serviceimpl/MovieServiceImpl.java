@@ -10,6 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
+import java.util.UUID;
+
 @Service
 public class MovieServiceImpl extends BaseServiceImpl<Movie, MovieDto> implements MovieService
 {
@@ -25,5 +28,10 @@ public class MovieServiceImpl extends BaseServiceImpl<Movie, MovieDto> implement
 		this.movieMapper = movieMapper;
 	}
 
-
+	@Override
+	public MovieDto create(MovieDto dto) throws EntityNotFoundException
+	{
+		movieRepository.insert(UUID.randomUUID(), dto.getTitle(), dto.getProductionYear(), dto.getRating(), dto.getPricePerMonth(), dto.getPriceToBuy(), dto.getAgeRestricted(), dto.getImdbRating(), 0);
+		return movieMapper.entityToDto(movieRepository.findByTitle(dto.getTitle()).get());
+	}
 }

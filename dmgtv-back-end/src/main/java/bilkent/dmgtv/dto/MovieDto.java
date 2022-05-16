@@ -18,4 +18,8 @@ public class MovieDto extends BaseDto<UUID>
 	private boolean ageRestricted;
 	private double imdbRating;
 	private int likeCount;
+
+	public boolean getAgeRestricted(){
+		return ageRestricted;
+	}
 }

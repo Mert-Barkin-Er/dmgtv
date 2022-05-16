@@ -16,11 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-
-import java.util.List;
-import java.util.Optional;
+import javax.persistence.EntityNotFoundException;
+import java.util.*;
 
 @Service
 public class RentServiceImpl extends BaseServiceImpl<Rent, RentDto> implements RentService
@@ -57,16 +54,20 @@ public class RentServiceImpl extends BaseServiceImpl<Rent, RentDto> implements R
 			LOGGER.error("Movie with name {} does not exist", movieName);
 			return null;
 		}
-
+		// check if movie is already rented by the user
+		Rent rent = rentRepository.findByUserUsernameAndMovieTitleAndEndDateIsNull(user.get().getUsername(), movie.get().getTitle());
+		if (rent != null)
+		{
+			throw new EntityNotFoundException("Movie is already rented by the user");
+		}
 		// rent movie
-		Rent rent = new Rent();
+		rent = new Rent();
 		rent.setMovie(movie.get());
 		rent.setUser(user.get());
 		rent.setStartDate(new Date(System.currentTimeMillis()));
 
-		rentRepository.save(rent);
-
-		return rentMapper.entityToDto(rent);
+		rentRepository.insert(UUID.randomUUID(), rent.getUser().getUsername(), rent.getMovie().getTitle(), rent.getStartDate());
+		return rentMapper.entityToDto(rentRepository.findByUserUsernameAndMovieTitleAndEndDateIsNull(user.get().getUsername(), movie.get().getTitle()));
 	}
 
 	public List<MovieDto> getRentedMovies(String username)
@@ -112,8 +113,7 @@ public class RentServiceImpl extends BaseServiceImpl<Rent, RentDto> implements R
 			LOGGER.error("User {} is not renting movie {}", username, movieName);
 			return null;
 		}
-		rent.setEndDate(new Date(System.currentTimeMillis()));
-		rentRepository.save(rent);
+		rentRepository.updateEndDateById(new Date(System.currentTimeMillis()), rent.getId());
 
 		return rentMapper.entityToDto(rent);
 	}
