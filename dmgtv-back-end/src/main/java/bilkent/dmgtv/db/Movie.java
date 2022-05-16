@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "movie")
+
 public class Movie extends BaseEntity
 {
 	@Column(name = "title", columnDefinition = "varchar(64)", nullable = false)
