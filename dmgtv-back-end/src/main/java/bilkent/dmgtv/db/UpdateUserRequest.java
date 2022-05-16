@@ -10,7 +10,6 @@ import lombok.*;
  * Data class for credentials in logging in
  */
 public class UpdateUserRequest {
-    private String username;
     private String password;
     private String fullName;
     private Integer year;

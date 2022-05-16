@@ -49,14 +49,14 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserDto> implements U
 		return candidateUser;
 	}
 
-	public UserDto update(UpdateUserRequest updateUserRequest) throws EntityNotFoundException
+	public UserDto update(String username, UpdateUserRequest updateUserRequest) throws EntityNotFoundException
 	{
-		if (updateUserRequest.getUsername() == null || updateUserRequest.getPassword() == null )
+		if (username == null || updateUserRequest == null )
 		{
 			LOGGER.warn("Update credentials cannot be empty");
 			throw new EntityNotFoundException();
 		}
-		Optional<User> userOptional = userRepository.findByUsername(updateUserRequest.getUsername());
+		Optional<User> userOptional = userRepository.findByUsername(username);
 		if (!userOptional.isPresent()) {
 			LOGGER.warn("No such user");
 			throw new EntityNotFoundException();

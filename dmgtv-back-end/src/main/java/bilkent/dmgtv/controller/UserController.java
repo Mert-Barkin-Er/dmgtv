@@ -52,12 +52,12 @@ public class UserController extends BaseController<UserDto>
 		}
 	}
 
-	@PostMapping(value = "update")
-	public ResponseEntity<RestResponse<UserDto>> update(@RequestBody UpdateUserRequest updateUserRequest)
+	@PostMapping(value = "update/{username}")
+	public ResponseEntity<RestResponse<UserDto>> update(@PathVariable String username, @RequestBody UpdateUserRequest updateUserRequest)
 	{
 		try
 		{
-			return new ResponseEntity<>(new RestResponse<>(userService.update(updateUserRequest), "Update User",
+			return new ResponseEntity<>(new RestResponse<>(userService.update(username, updateUserRequest), "Update User",
 					"Entity update was successful"),
 					HttpStatus.OK);
 		}
