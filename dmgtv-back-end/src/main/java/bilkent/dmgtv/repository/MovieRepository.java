@@ -26,7 +26,7 @@ public interface MovieRepository extends BaseRepository<Movie, UUID> {
     @Modifying
     @Query(value = "insert into movie values (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9)", nativeQuery = true)
     void insert(UUID uuid, String title, Integer productionYear, Double rating, Integer pricePerMonth, Integer priceToBuy, Boolean ageRestricted, Double imdbRating, Integer likeCount);
-    
+
     @Query(value = "select * from movie m where m.production_year >= ?1 and m.production_year <= ?2", nativeQuery = true)
     List<Movie> findAllByProductionYearGreaterThanEqualAndProductionYearLessThanEqual(Integer start, Integer end);
 }
