@@ -89,11 +89,11 @@ INSERT INTO users VALUES (uuid_generate_v4(), 'ardaonal', 'password9', 'Arda Ona
 INSERT INTO users VALUES (uuid_generate_v4(), 'erenpolat', 'password10', 'Eren Polat', '2001-01-01');
 
 --movies
-INSERT INTO movie VALUES (uuid_generate_v4(), 'The Shawshank Redemption', 1994, 9.3, 10, 10, false, 9.3, 0);
-INSERT INTO movie VALUES (uuid_generate_v4(), 'The Godfather', 1972, 9.2, 10, 10, false, 9.2, 0);
-INSERT INTO movie VALUES (uuid_generate_v4(), 'The Godfather: Part II', 1974, 9.0, 10, 10, false, 9.0, 0);
-INSERT INTO movie VALUES (uuid_generate_v4(), 'The Dark Knight', 2008, 9.0, 10, 10, false, 9.0, 0);
-INSERT INTO movie VALUES (uuid_generate_v4(), 'The Batman', 2022, 0, 10, 100, true, 8, 0);
+INSERT INTO movie VALUES (uuid_generate_v4(), 'The Shawshank Redemption', 1994, 4, 10, 10, false, 9.3, 0);
+INSERT INTO movie VALUES (uuid_generate_v4(), 'The Godfather', 1972, 5, 10, 10, false, 9.2, 0);
+INSERT INTO movie VALUES (uuid_generate_v4(), 'The Godfather: Part II', 1974, 0, 10, 10, false, 9.0, 0);
+INSERT INTO movie VALUES (uuid_generate_v4(), 'The Dark Knight', 2008, 0, 10, 10, false, 9.0, 0);
+INSERT INTO movie VALUES (uuid_generate_v4(), 'The Batman', 2022, 3, 10, 100, true, 8, 0);
 INSERT INTO movie VALUES (uuid_generate_v4(), 'Parasite', 2019, 0, 8, 80, false, 8.5, 0);
 INSERT INTO movie VALUES (uuid_generate_v4(), 'The Lion King', 2019, 0, 8, 80, false, 8.5, 0);
 INSERT INTO movie VALUES (uuid_generate_v4(), 'The Dark Knight Rises', 2012, 0, 8, 80, false, 8.5, 0);

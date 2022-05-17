@@ -6,19 +6,19 @@ export default function UserNavbar() {
         <AppBar position="static">
             <CssBaseline/>
             <Toolbar>
-                <Link to="/movies" style={{margin: "25px 50px"}}>
+                <Link to="/movies" style={{margin: "25px 50px", color: "white"}}>
                     Movies
                 </Link>
-                <Link to="/profile" style={{margin: "25px 50px"}}>
+                <Link to="/profile" style={{margin: "25px 50px", color: "white"}}>
                     Profile
                 </Link>
-                <Link to="/friends" style={{margin: "25px 50px"}}>
+                <Link to="/friends" style={{margin: "25px 50px", color: "white"}}>
                     Friends
                 </Link>
-                <Link to="/mymovies" style={{margin: "25px 50px"}}>
+                <Link to="/mymovies" style={{margin: "25px 50px", color: "white"}}>
                     Go to my movies
                 </Link>
-                <Link to="/" style={{margin: "25px 50px"}} onClick={() => {sessionStorage.clear();}}>
+                <Link to="/" style={{margin: "25px 50px", color: "white"}} onClick={() => {sessionStorage.clear();}}>
                     Log out
                 </Link>
             </Toolbar>

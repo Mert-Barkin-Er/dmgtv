@@ -8,6 +8,7 @@ export default function MoviesPage() {
     const [movies, setMovies] = useState([]);
     const [rentSuccessful, setRentSuccessful] = useState(false);
     const [buySuccessful, setBuySuccessful] = useState(false);
+    const [wishSuccessful, setWishSuccessful] = useState(false);
     const [seeReviews, setSeeReviews] = useState(false);
     const [reviews, setReviews] = useState([]);
 
@@ -59,6 +60,17 @@ export default function MoviesPage() {
             setSeeReviews(true);
         }).catch((err) => {
             console.log(err);
+        });
+    }
+
+    function addToWishlist(title) {
+        const currentUser = JSON.parse(sessionStorage.getItem("username"));
+        const wishlistURL = "http://localhost:8080/wish/createWish/" + title + "/" + currentUser;
+        axios.post(wishlistURL).then((res) => {
+            setWishSuccessful(true);
+        }).catch((err) => {
+            console.log(err);
+            setWishSuccessful(false);
         });
     }
 
@@ -151,6 +163,9 @@ export default function MoviesPage() {
                             <Button variant="outlined" onClick={() => {seeMovieReviews(tableMeta.rowData[0]);}}>
                                 See reviews
                             </Button>
+                            <Button variant="outlined" onClick={() => {addToWishlist(tableMeta.rowData[0]);}}>
+                                Add to wishlist
+                            </Button>
                         </div>
                     );
                 }
@@ -166,6 +181,7 @@ export default function MoviesPage() {
             <MUIDataTables title="Movie List" data={movies} columns={columns} options={options}/>
             <Snackbar open={rentSuccessful} autoHideDuration={2000} message="Movie rented successfully!" onClose={() => {setRentSuccessful(false);}}/>
             <Snackbar open={buySuccessful} autoHideDuration={2000} message="Movie bought successfully!" onClose={() => {setBuySuccessful(false);}}/>
+            <Snackbar open={wishSuccessful} autoHideDuration={2000} message="Movie added to wishlist successfully!" onClose={() => {setWishSuccessful(false);}}/>
             <Dialog open={seeReviews} onClose={() => {setSeeReviews(false);}}>
                 <List>
                     {reviews.map((review, index) => (
